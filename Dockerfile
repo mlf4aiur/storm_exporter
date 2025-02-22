@@ -1,13 +1,26 @@
-FROM alpine:3.5
-RUN apk add --no-cache python3 curl && \
-    python3 -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
-    pip3 install --upgrade pip prometheus_client requests\
-    && rm -rf /var/cache/apk/*
+ARG PYTHON_IMAGE=python:3-alpine
+FROM ${PYTHON_IMAGE} AS build
 
+# Install Python dependencies
+RUN pip install --no-cache-dir apscheduler prometheus-client requests
+
+# Create a non-root user and application directory
+RUN adduser -D app && mkdir -p /app && chown -R app:app /app
+
+# Set working directory
 WORKDIR /app
-COPY storm_exporter.py /app
 
-EXPOSE 8000
+# Copy application files
+COPY storm_exporter.py /app/storm_exporter.py
 
-ENTRYPOINT [ "/bin/sh", "-c", "python3 /app/storm_exporter.py $STORM_UI_HOST 8000 $REFRESH_RATE" ]
+# Change ownership and set execution permissions
+RUN chown -R app:app /app
+
+# Switch to non-root user
+USER app
+
+# Expose Prometheus metrics port
+EXPOSE 9800
+
+# Run the application
+CMD ["python", "/app/storm_exporter.py"]

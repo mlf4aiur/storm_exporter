@@ -1,0 +1,39 @@
+# Can ignore specific files
+.DS_Store
+
+# local env files
+.env.local
+.env.*.local
+.env
+!data/.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.vscode/
+
+# Editor directories and files
+*~
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Python
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Maven build directory
+/target/
+
+# JAR files
+*.jar
+*.war
+*.ear

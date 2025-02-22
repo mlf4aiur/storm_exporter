@@ -1,17 +1,18 @@
-# my global config
+# Global configuration
 global:
-  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-  # scrape_timeout is set to the global default (10s).
+  scrape_interval: 15s  # How often to scrape targets (default: 1m)
+  evaluation_interval: 15s  # How often to evaluate rules (default: 1m)
+  scrape_timeout: 10s  # Maximum time to wait before failing a scrape
 
-# A scrape configuration containing exactly one endpoint to scrape:
-# Here it's Prometheus itself.
+# Scrape configurations
 scrape_configs:
-  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: 'storm-logger'
-
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-
+  # Storm Exporter Metrics
+  - job_name: 'storm-exporter'
+    metrics_path: '/metrics'
     static_configs:
-      - targets: ['storm-exporter:8000']
+      - targets: ['storm-exporter:9800']
+
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
