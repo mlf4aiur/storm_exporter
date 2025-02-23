@@ -166,7 +166,7 @@ def main():
 
     parser.add_argument(
         '--storm-ui-host',
-        default=os.environ.get('STORM_UI_HOST', 'localhost'),
+        default=os.environ.get('STORM_UI_HOST', 'localhost:8080'),
         help='Storm UI host')
     parser.add_argument(
         '--exporter-http-port',
@@ -175,7 +175,7 @@ def main():
         help='HTTP port for Prometheus exporter')
     parser.add_argument(
         '--refresh-rate', type=int,
-        default=int(os.environ.get('REFRESH_RATE', 30)),
+        default=int(os.environ.get('REFRESH_RATE', 15)),
         help='Metrics refresh rate in seconds')
     parser.add_argument(
         '--log-level',

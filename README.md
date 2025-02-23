@@ -25,10 +25,13 @@ docker run --rm -e STORM_UI_HOST=storm-ui:8080 -e EXPORTER_HTTP_PORT=9800 -e REF
 To build `storm-starter` using Maven and place the generated JAR file into the `./storm` folder, follow these steps:
 
 ```
-git clone https://github.com/apache/storm-starter.git
-cd storm-starter
+cd ./storm/
+git clone https://github.com/apache/storm.git
+docker run -t -i --rm -v "$(pwd):/build" -w /build eclipse-temurin:17-jdk bash
+apt-get update && apt-get install -y maven
+cd storm/examples/storm-starter
 mvn clean package -DskipTests
-cp target/storm-starter-*.jar ./storm/
+cp target/storm-starter-*.jar ../../../
 ```
 
 ## Notes

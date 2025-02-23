@@ -2,7 +2,6 @@ services:
   zookeeper:
     image: zookeeper:3.9
     container_name: zookeeper
-    restart: always
 
   nimbus:
     image: storm:2.8
@@ -12,7 +11,6 @@ services:
       - zookeeper
     links:
       - zookeeper
-    restart: always
     ports:
       - 6627:6627
 
@@ -26,7 +24,6 @@ services:
     links:
       - nimbus
       - zookeeper
-    restart: always
 
   ui:
     image: storm:2.8
@@ -36,7 +33,6 @@ services:
       - nimbus
     links:
       - nimbus
-    restart: always
     ports:
       - 8080:8080
 
@@ -62,7 +58,6 @@ services:
       - ui
     links:
       - ui
-    restart: always
     ports:
       - 9800:9800
 

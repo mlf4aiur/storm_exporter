@@ -7,7 +7,7 @@ PROMETHEUS_HOST="prometheus"
 PROMETHEUS_PORT=9090
 GRAFANA_USER="${GRAFANA_USER:-admin}"
 GRAFANA_PASSWORD="${GRAFANA_PASSWORD:-admin}"
-DASHBOARD_PATH="/grafana/storm-topology-dashboard.json"
+DASHBOARD_PATH="/grafana/apache-storm-dashboard.json"
 
 # Function to wait for a service to become available using wget
 wait_for_service() {
@@ -17,8 +17,8 @@ wait_for_service() {
 
   echo "Waiting for $name ($host:$port)..."
 
-  # Use wget to check if the service is available
-  while ! wget -q --spider "http://$host:$port"; do
+  # Check if the service is available
+  while ! wget -q -O /dev/null "http://$host:$port"; do
     sleep 1
   done
 
@@ -44,7 +44,7 @@ wget -q "http://$GRAFANA_HOST:$GRAFANA_PORT/api/datasources" \
 
 # Upload the dashboard JSON file
 if [ -f "$DASHBOARD_PATH" ]; then
-  echo "Uploading Storm Topology Dashboard..."
+  echo "Uploading Apache Storm Dashboard..."
 
   # Read the dashboard JSON file and send it in the request
   DASHBOARD_JSON=$(cat "$DASHBOARD_PATH")
