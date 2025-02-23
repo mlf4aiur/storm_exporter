@@ -20,6 +20,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Extract version
+        run: |
+          TAG_NAME=${{ github.event.release.tag_name }}
+          echo "VERSION=${TAG_NAME#v}" >> $GITHUB_ENV
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -36,12 +41,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
-
-      - name: Extract release version
-        run: |
-          TAG_NAME=${{ github.event.release.tag_name }}
-          echo "RELEASE_VERSION=${TAG_NAME#v}" >> $GITHUB_ENV
+          tags: ghcr.io/${{ github.repository }}:${{ env.VERSION }}
 
       - name: Verify Helm Chart
         run: |
@@ -49,7 +49,7 @@ jobs:
 
       - name: Package Helm Chart
         run: |
-          helm package ./chart --version ${{ env.RELEASE_VERSION }}
+          helm package ./chart --version ${{ env.VERSION }}
 
       - name: Log in to Helm OCI Registry
         run: |
@@ -57,4 +57,4 @@ jobs:
 
       - name: Push Helm Chart to GHCR
         run: |
-          helm push ./chart-${{ env.RELEASE_VERSION }}.tgz oci://ghcr.io/${{ github.repository_owner }}/charts
+          helm push ./prometheus-storm-exporter-${{ env.VERSION }}.tgz oci://ghcr.io/${{ github.repository_owner }}/charts
