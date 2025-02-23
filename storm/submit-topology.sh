@@ -20,5 +20,5 @@ wait_for_service "nimbus" 6627 "Storm Nimbus"
 
 # Submit the Storm topology
 echo "Submitting Storm topology..."
-storm jar /storm/storm-starter-*.jar org.apache.storm.starter.WordCountTopology topology
-# storm jar /storm/storm-starter-*.jar org.apache.storm.starter.RollingTopWords production-topology
+storm jar /storm/storm-starter-*.jar org.apache.storm.starter.WordCountTopology WordCountTopology
+storm jar /storm/storm-starter-*.jar org.apache.storm.starter.RollingTopWords RollingTopWords
